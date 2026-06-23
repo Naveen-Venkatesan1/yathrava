@@ -127,11 +127,7 @@ export default function Login() {
       <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.2)' }} />
 
       {/* Card */}
-      <div style={{
-        position: 'relative', background: '#fff', borderRadius: '1.5rem',
-        boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', padding: '2.5rem',
-        width: '100%', maxWidth: '28rem', margin: '1rem', zIndex: 1
-      }}>
+      <div className="relative bg-white rounded-3xl shadow-2xl p-6 md:p-10 w-full max-w-[28rem] mx-4 z-10">
 
         {/* Header */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '2rem' }}>

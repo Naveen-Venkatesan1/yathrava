@@ -25,8 +25,8 @@ export default function Navigation() {
   };
 
   return (
-    <nav style={{ padding: '1rem', background: '#ffffff', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <nav className="p-2 sm:p-4 bg-white shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
+      <div className="max-w-[1200px] mx-auto flex justify-between items-center flex-wrap gap-2">
         {/* Left: Brand/Logo */}
         <div>
           <Link to="/" style={{ fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', color: '#333' }}>
@@ -35,7 +35,7 @@ export default function Navigation() {
           </Link>
         </div>
         {/* Right: Auth area & Language Selector */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        <div className="flex items-center gap-2 sm:gap-4 ml-auto">
           <LanguageSelector />
           {user ? (
             <div style={{ position: 'relative' }}>
@@ -60,11 +60,11 @@ export default function Navigation() {
               )}
             </div>
           ) : (
-            <div style={{ display: 'flex', gap: '0.75rem' }}>
-              <Link to="/login" style={{ textDecoration: 'none', color: '#4f46e5', padding: '0.5rem 1rem' }}>
+            <div className="flex gap-1.5 sm:gap-3 text-sm sm:text-base">
+              <Link to="/login" className="text-indigo-600 px-2 py-1 sm:px-4 sm:py-2">
                 {t('nav_login', 'Login')}
               </Link>
-              <Link to="/register" style={{ textDecoration: 'none', background: '#4f46e5', color: '#fff', padding: '0.5rem 1rem', borderRadius: '6px' }}>
+              <Link to="/register" className="bg-indigo-600 text-white px-2 py-1 sm:px-4 sm:py-2 rounded-md whitespace-nowrap">
                 {t('nav_signup', 'Sign Up')}
               </Link>
             </div>

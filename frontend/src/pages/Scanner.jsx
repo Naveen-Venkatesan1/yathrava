@@ -315,10 +315,10 @@ const styles = {
     zIndex: 10, pointerEvents: "none",
   },
   darkRegion: { flex: 1, background: "rgba(0,0,0,0.6)" },
-  middleRow: { display: "flex", flexDirection: "row", height: 250 },
+  middleRow: { display: "flex", flexDirection: "row", height: "min(70vw, 250px)" },
   targetBox: {
     position: "relative",
-    width: 250, height: 250,
+    width: "min(70vw, 250px)", height: "min(70vw, 250px)",
     background: "transparent",
     animation: "glowFrame 2s infinite alternate",
     borderRadius: 24,

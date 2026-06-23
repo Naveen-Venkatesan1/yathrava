@@ -46,46 +46,46 @@ export default function StationAlert() {
         <h1 style={{ margin: 0, fontSize: '1.3rem', fontWeight: 700, letterSpacing: '0.02em' }}>Missed Station Alert</h1>
       </div>
 
-      <div style={{ flex: 1, padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '600px', margin: '0 auto', width: '100%' }}>
+      <div className="flex-1 p-4 md:p-6 flex flex-col gap-4 md:gap-6 w-full max-w-[600px] mx-auto">
         {/* Status Header */}
-        <div style={{ background: isActive ? '#dcfce7' : '#f1f5f9', border: `1px solid ${isActive ? '#bbf7d0' : '#e2e8f0'}`, padding: '1.5rem', borderRadius: '1.25rem', display: 'flex', alignItems: 'center', gap: '1.25rem', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
-          <div style={{ background: isActive ? '#16a34a' : '#94a3b8', padding: '1.25rem', borderRadius: '50%', color: '#fff', display: 'flex', boxShadow: isActive ? '0 4px 12px rgba(22,163,74,0.4)' : 'none' }}>
+        <div className={`p-4 md:p-6 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center gap-4 shadow-sm border ${isActive ? 'bg-green-100 border-green-200' : 'bg-slate-100 border-slate-200'}`}>
+          <div className={`p-4 rounded-full text-white shadow-md flex-shrink-0 ${isActive ? 'bg-green-600 shadow-green-600/40' : 'bg-slate-400'}`}>
             {isActive ? <Bell size={36} /> : <BellOff size={36} />}
           </div>
           <div>
-            <h2 style={{ margin: 0, color: '#0f172a', fontSize: '1.6rem', fontWeight: 800 }}>
+            <h2 className="m-0 text-slate-900 text-xl md:text-2xl font-extrabold">
               {isActive ? "Protection Active" : "Alert System Off"}
             </h2>
-            <p style={{ margin: '0.25rem 0 0', color: '#475569', fontSize: '1.05rem', lineHeight: 1.4 }}>
+            <p className="m-0 mt-1 text-slate-600 text-sm md:text-base leading-snug">
               {isActive ? "We'll wake you up before your station." : "Turn on to protect against missing your stop."}
             </p>
           </div>
         </div>
 
         {/* Journey Details */}
-        <div style={{ background: '#fff', borderRadius: '1.25rem', padding: '1.75rem', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem' }}>
+        <div className="bg-white rounded-2xl p-5 md:p-7 shadow-sm">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-5">
             <div>
-              <p style={{ margin: 0, color: '#64748b', fontSize: '0.95rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Destination</p>
-              <h3 style={{ margin: '0.25rem 0', color: '#0f172a', fontSize: '2rem', fontWeight: 900, lineHeight: 1.1 }}>{journey.destinationStation}</h3>
+              <p className="m-0 text-slate-500 text-xs md:text-sm font-bold uppercase tracking-wider">Destination</p>
+              <h3 className="m-0 mt-1 text-slate-900 text-2xl md:text-3xl font-black leading-tight">{journey.destinationStation}</h3>
             </div>
-            <div style={{ textAlign: 'right' }}>
-              <p style={{ margin: 0, color: '#64748b', fontSize: '0.95rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>ETA</p>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.25rem', color: '#ea580c' }}>
-                <span style={{ fontSize: '3rem', fontWeight: 800, lineHeight: 1 }}>{mins}</span>
-                <span style={{ fontSize: '1.2rem', fontWeight: 700 }}>mins</span>
+            <div className="text-left sm:text-right">
+              <p className="m-0 text-slate-500 text-xs md:text-sm font-bold uppercase tracking-wider">ETA</p>
+              <div className="flex items-baseline gap-1 text-orange-600">
+                <span className="text-4xl md:text-5xl font-extrabold leading-none">{mins}</span>
+                <span className="text-lg md:text-xl font-bold">mins</span>
               </div>
             </div>
           </div>
-          <hr style={{ border: 'none', borderTop: '2px dashed #e2e8f0', margin: '1.5rem 0' }} />
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+          <hr className="border-none border-t-2 border-dashed border-slate-200 my-5 md:my-6" />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
             <div>
-              <p style={{ margin: 0, color: '#64748b', fontSize: '0.95rem', fontWeight: 600 }}>Current Station</p>
-              <p style={{ margin: '0.25rem 0', color: '#0f172a', fontSize: '1.25rem', fontWeight: 700 }}>{journey.currentStation}</p>
+              <p className="m-0 text-slate-500 text-sm font-semibold">Current Station</p>
+              <p className="m-0 mt-1 text-slate-900 text-lg md:text-xl font-bold">{journey.currentStation}</p>
             </div>
             <div>
-              <p style={{ margin: 0, color: '#64748b', fontSize: '0.95rem', fontWeight: 600 }}>Stations Left</p>
-              <p style={{ margin: '0.25rem 0', color: '#0f172a', fontSize: '1.25rem', fontWeight: 700 }}>{journey.stationsLeft}</p>
+              <p className="m-0 text-slate-500 text-sm font-semibold">Stations Left</p>
+              <p className="m-0 mt-1 text-slate-900 text-lg md:text-xl font-bold">{journey.stationsLeft}</p>
             </div>
           </div>
         </div>
@@ -93,24 +93,8 @@ export default function StationAlert() {
         {/* Action Button */}
         <button
           onClick={toggleAlertSystem}
-          style={{
-            width: '100%',
-            padding: '1.5rem',
-            borderRadius: '1.25rem',
-            background: isActive ? '#ef4444' : '#0284c7',
-            color: '#fff',
-            fontSize: '1.4rem',
-            fontWeight: 800,
-            border: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '1rem',
-            cursor: 'pointer',
-            boxShadow: isActive ? '0 10px 25px -5px rgba(239,68,68,0.4)' : '0 10px 25px -5px rgba(2,132,199,0.4)',
-            transition: 'all 0.2s',
-            marginTop: '1rem'
-          }}>
+          className={`w-full p-4 md:p-6 rounded-2xl text-white text-lg md:text-2xl font-extrabold border-none flex items-center justify-center gap-2 md:gap-4 cursor-pointer transition-all mt-2 md:mt-4 shadow-lg ${isActive ? 'bg-red-500 shadow-red-500/40' : 'bg-sky-600 shadow-sky-600/40'}`}
+        >
           {isActive ? <>Stop Alert System</> : <><Moon size={28} /> Sleep Safely - Turn On</>}
         </button>
 
@@ -156,26 +140,13 @@ export default function StationAlert() {
           animation: 'pulseBg 1s infinite alternate'
         }}>
           <Volume2 size={100} style={{ marginBottom: '2rem', animation: 'shake 0.5s infinite' }} />
-          <h1 style={{ fontSize: '3.5rem', fontWeight: 900, margin: '0 0 1rem', lineHeight: 1.1, textShadow: '0 4px 12px rgba(0,0,0,0.3)' }}>{currentAlert === 'missed' ? "ARRIVED!" : "WAKE UP!"}</h1>
-          <p style={{ fontSize: '1.75rem', fontWeight: 700, margin: '0 0 3rem', opacity: 0.95 }}>
+          <h1 className="text-4xl md:text-6xl font-black m-0 mb-4 leading-tight drop-shadow-md">{currentAlert === 'missed' ? "ARRIVED!" : "WAKE UP!"}</h1>
+          <p className="text-xl md:text-3xl font-bold m-0 mb-10 opacity-95">
             {currentAlert === 'missed' ? "You have reached your destination." : `${currentAlert} minutes to ${journey.destinationStation}`}
           </p>
           <button
             onClick={handleAcknowledge}
-            style={{
-              background: '#fff',
-              color: currentAlert === 'missed' ? '#ef4444' : '#f59e0b',
-              border: 'none',
-              padding: '1.75rem 3.5rem',
-              borderRadius: '999px',
-              fontSize: '1.75rem',
-              fontWeight: 900,
-              cursor: 'pointer',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
-              transition: 'transform 0.1s'
-            }}
-            onMouseDown={e => (e.currentTarget.style.transform = 'scale(0.95)')}
-            onMouseUp={e => (e.currentTarget.style.transform = 'scale(1)')}
+            className={`bg-white border-none py-4 px-8 md:py-6 md:px-12 rounded-full text-2xl md:text-3xl font-black cursor-pointer shadow-2xl transition-transform active:scale-95 ${currentAlert === 'missed' ? 'text-red-500' : 'text-amber-500'}`}
           >
             I'm Awake
           </button>

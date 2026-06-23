@@ -50,11 +50,11 @@ export default function SmartTicket() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+      <div className="bg-white rounded-2xl p-5 md:p-8 shadow-sm border border-gray-100">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Smart Ticket Assistant</h1>
         <p className="text-gray-500 mb-8">Enter your 10-digit PNR number to get live AI guidance for your journey.</p>
         
-        <form onSubmit={handleSearch} className="flex gap-4">
+        <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-4">
           <div className="flex-1 relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input 
@@ -62,7 +62,7 @@ export default function SmartTicket() {
               placeholder="Enter 10-digit PNR Number" 
               value={pnr}
               onChange={(e) => setPnr(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none text-lg font-medium"
+              className="w-full pl-12 pr-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none text-base md:text-lg font-medium"
               style={{ '--tw-ring-color': '#0ea5e9' }}
               maxLength={10}
             />
@@ -70,6 +70,7 @@ export default function SmartTicket() {
           <button 
             type="submit"
             disabled={loading}
+            className="w-full sm:w-auto justify-center"
             style={{ background: '#0284c7', color: '#fff', padding: '1rem 2rem', borderRadius: '0.75rem', fontWeight: 700, border: 'none', cursor: 'pointer', opacity: loading ? 0.7 : 1, display: 'flex', alignItems: 'center', whiteSpace: 'nowrap' }}
           >
             {loading ? 'Searching...' : 'Find Ticket'}
@@ -88,7 +89,7 @@ export default function SmartTicket() {
           }} />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="col-span-2 space-y-6">
-              <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+              <div className="bg-white rounded-2xl p-4 md:p-6 shadow-sm border border-gray-100">
                 <div className="flex justify-between items-start mb-6">
                   <div>
                     <h2 className="text-2xl font-bold text-gray-900">{ticket.train_name}</h2>
@@ -99,19 +100,19 @@ export default function SmartTicket() {
                   </span>
                 </div>
                 
-                <div className="flex items-center gap-8 py-6 border-y border-gray-100 mb-6">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 py-6 border-y border-gray-100 mb-6">
                   <div>
                     <p className="text-sm text-gray-500 mb-1">Boarding</p>
                     <p className="font-bold text-gray-900">{ticket.boarding_station}</p>
                   </div>
-                  <div className="flex-1 flex items-center justify-center">
+                  <div className="hidden sm:flex flex-1 items-center justify-center">
                     <div className="w-full h-px bg-gray-300 relative">
                       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-2 text-gray-400">
                         <Clock className="w-4 h-4" />
                       </div>
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="sm:text-right mt-2 sm:mt-0">
                     <p className="text-sm text-gray-500 mb-1">Destination</p>
                     <p className="font-bold text-gray-900">{ticket.destination_station}</p>
                   </div>

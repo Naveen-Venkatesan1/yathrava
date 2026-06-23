@@ -26,18 +26,18 @@ function App() {
           <Router>
             <SOSOverlay />
             <Navigation />
-            <main>
+            <main className="pb-[60px]">
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/smart-ticket" element={<div style={{ maxWidth: '80rem', margin: '0 auto', padding: '2rem 1.5rem', width: '100%' }}><SmartTicket /></div>} />
-              <Route path="/scanner" element={<div style={{ maxWidth: '80rem', margin: '0 auto', padding: '2rem 1.5rem', width: '100%' }}><Scanner /></div>} />
-              <Route path="/station-alert" element={<div style={{ maxWidth: '80rem', margin: '0 auto', padding: '2rem 1.5rem', width: '100%' }}><StationAlert /></div>} />
+              <Route path="/smart-ticket" element={<div className="max-w-[80rem] mx-auto w-full p-4 md:px-6 md:py-8"><SmartTicket /></div>} />
+              <Route path="/scanner" element={<div className="max-w-[80rem] mx-auto w-full p-4 md:px-6 md:py-8"><Scanner /></div>} />
+              <Route path="/station-alert" element={<div className="max-w-[80rem] mx-auto w-full p-4 md:px-6 md:py-8"><StationAlert /></div>} />
               <Route path="/routes" element={<TrainRoutesPage />} />
               <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/family-locator" element={<div style={{ maxWidth: '80rem', margin: '0 auto', padding: '2rem 1.5rem', width: '100%' }}><FamilyLocator /></div>} />
-              <Route path="/emergency-contacts" element={<div style={{ maxWidth: '80rem', margin: '0 auto', padding: '2rem 1.5rem', width: '100%' }}><EmergencyContacts /></div>} />
+              <Route path="/family-locator" element={<div className="max-w-[80rem] mx-auto w-full p-4 md:px-6 md:py-8"><FamilyLocator /></div>} />
+              <Route path="/emergency-contacts" element={<div className="max-w-[80rem] mx-auto w-full p-4 md:px-6 md:py-8"><EmergencyContacts /></div>} />
             </Routes>
             <VoiceAssistant />
           </main>

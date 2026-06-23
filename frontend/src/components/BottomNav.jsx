@@ -9,9 +9,10 @@ export default function BottomNav() {
     bottom: 0,
     left: 0,
     right: 0,
-    height: '56px',
+    height: '60px',
     background: '#ffffff',
     borderTop: '1px solid #e2e8f0',
+    paddingBottom: 'env(safe-area-inset-bottom)',
     display: 'flex',
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -25,6 +26,9 @@ export default function BottomNav() {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    height: '100%',
   };
 
   const activeStyle = {

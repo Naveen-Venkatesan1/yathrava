@@ -111,7 +111,7 @@ export default function Dashboard() {
           }}
         />
 
-        <div style={{ position: 'relative', padding: '3rem 3.5rem' }}>
+        <div className="p-6 md:p-12 lg:p-[3rem_3.5rem]" style={{ position: 'relative' }}>
           <div style={{ maxWidth: '600px' }}>
             <div
               style={{
@@ -208,7 +208,7 @@ export default function Dashboard() {
       </div>
 
       {/* ── Stats Row ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 200px), 1fr))', gap: '1rem' }}>
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
@@ -257,7 +257,7 @@ export default function Dashboard() {
         <h2 style={{ fontSize: '1.3rem', fontWeight: 700, color: '#0f172a', marginBottom: '1rem' }}>
           {t('explore_features', 'Explore Features')}
         </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '1rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 220px), 1fr))', gap: '1rem' }}>
           {features.map((feature, idx) => {
             const Icon = feature.icon;
             return (
@@ -315,7 +315,7 @@ export default function Dashboard() {
       </div>
 
       {/* ── Recent Journeys + SOS ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1rem', alignItems: 'start' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 300px), 1fr))', gap: '1rem', alignItems: 'start' }}>
 
         {/* Recent Journeys */}
         <div
