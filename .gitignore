@@ -8,6 +8,7 @@ frontend/build/
 .env.local
 .env.development
 .env.production
+backend/venv/
 *.key
 *.pem
 npm-debug.log*
