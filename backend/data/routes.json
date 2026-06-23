@@ -1,0 +1,22 @@
+[
+  {
+    "train_number": "12621",
+    "train_name": "TAMIL NADU EXP",
+    "type": "Express",
+    "stops": [
+      {"station_code": "MAS", "arrival": "06:00", "departure": "06:10", "platform": "4", "distance_km": 0},
+      {"station_code": "BPL", "arrival": "08:30", "departure": "08:35", "platform": "2", "distance_km": 330},
+      {"station_code": "NDLS", "arrival": "14:55", "departure": "15:05", "platform": "1", "distance_km": 2180}
+    ]
+  },
+  {
+    "train_number": "12239",
+    "train_name": "WAYRAMPUR EXP",
+    "type": "Express",
+    "stops": [
+      {"station_code": "SBC", "arrival": "05:00", "departure": "05:10", "platform": "5", "distance_km": 0},
+      {"station_code": "HWH", "arrival": "13:45", "departure": "13:55", "platform": "3", "distance_km": 1500},
+      {"station_code": "NDLS", "arrival": "22:10", "departure": "22:20", "platform": "6", "distance_km": 2100}
+    ]
+  }
+]

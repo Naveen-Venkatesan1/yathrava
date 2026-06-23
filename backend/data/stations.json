@@ -1,0 +1,42 @@
+[
+  {
+    "code": "MAS",
+    "name": "Chennai Central",
+    "city": "Chennai",
+    "state": "Tamil Nadu",
+    "lat": 13.0827,
+    "lon": 80.2707
+  },
+  {
+    "code": "BPL",
+    "name": "Bhopal Junction",
+    "city": "Bhopal",
+    "state": "Madhya Pradesh",
+    "lat": 23.2581,
+    "lon": 77.4126
+  },
+  {
+    "code": "NDLS",
+    "name": "New Delhi Railway Station",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "lat": 28.6400,
+    "lon": 77.2200
+  },
+  {
+    "code": "HWH",
+    "name": "Howrah Junction",
+    "city": "Kolkata",
+    "state": "West Bengal",
+    "lat": 22.5856,
+    "lon": 88.3462
+  },
+  {
+    "code": "SBC",
+    "name": "Bangalore City",
+    "city": "Bengaluru",
+    "state": "Karnataka",
+    "lat": 12.9716,
+    "lon": 77.5937
+  }
+]
