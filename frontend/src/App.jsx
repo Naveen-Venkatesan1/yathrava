@@ -39,8 +39,8 @@ function App() {
               <Route path="/family-locator" element={<div className="max-w-[80rem] mx-auto w-full p-4 md:px-6 md:py-8"><FamilyLocator /></div>} />
               <Route path="/emergency-contacts" element={<div className="max-w-[80rem] mx-auto w-full p-4 md:px-6 md:py-8"><EmergencyContacts /></div>} />
             </Routes>
-            <VoiceAssistant />
           </main>
+          <VoiceAssistant />
           <BottomNav />
         </Router>
       </AlertProvider>

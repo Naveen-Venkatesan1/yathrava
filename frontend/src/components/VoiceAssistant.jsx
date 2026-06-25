@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Mic, MicOff, Loader2, Trash2, X, MessageSquare, Volume2 } from 'lucide-react';
+import { Mic, MicOff, Loader2, Trash2, X, MessageSquare, Volume2, WifiOff } from 'lucide-react';
 import { useSafety } from '../context/SafetyContext';
+import { API_ENDPOINTS, IS_BACKEND_CONFIGURED } from '../config/api';
 
 export default function VoiceAssistant() {
   const { triggerSOS } = useSafety();
@@ -59,10 +60,17 @@ export default function VoiceAssistant() {
   // ---------- Intent Handling ----------
   const handleIntent = useCallback(async (text) => {
     setStatus('Processing...');
+    const url = API_ENDPOINTS.chatIntent();
+
+    if (!url) {
+      const msg = 'AI service is not connected. Please set VITE_API_URL in your Vercel environment variables to a deployed backend URL.';
+      setMessages(prev => [...prev, { id: Date.now(), sender: 'ai', text: msg, isError: true }]);
+      setStatus('No Backend');
+      return;
+    }
+
     const maxRetries = 3;
     const timeoutDuration = 8000;
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-    const url = `${apiUrl}/chat/intent`;
 
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       const controller = new AbortController();
@@ -189,6 +197,7 @@ export default function VoiceAssistant() {
     if (status === 'Listening...') return 'bg-red-100 text-red-600 border-red-200 animate-pulse';
     if (status === 'Processing...') return 'bg-blue-100 text-blue-600 border-blue-200';
     if (status === 'Speaking...') return 'bg-green-100 text-green-600 border-green-200';
+    if (status === 'No Backend') return 'bg-orange-100 text-orange-600 border-orange-200';
     if (status.includes('Error') || status === 'Permission Denied') return 'bg-orange-100 text-orange-600 border-orange-200';
     return 'bg-gray-100 text-gray-600 border-gray-200';
   };
@@ -198,7 +207,7 @@ export default function VoiceAssistant() {
     <>
       {/* Assistant Panel */}
       <div 
-        className={`fixed bottom-[85px] md:bottom-6 right-4 md:right-6 z-[9999] w-[calc(100vw-2rem)] md:w-80 bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col transition-all duration-300 transform origin-bottom-right ${isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'}`}
+        className={`fixed bottom-[85px] md:bottom-6 right-[2.5vw] md:right-6 z-[99999] w-[95vw] md:w-[420px] lg:w-[450px] bg-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-gray-200 flex flex-col transition-all duration-300 transform origin-bottom-right ${isOpen ? 'scale-100 opacity-100' : 'scale-0 opacity-0 pointer-events-none'}`}
         style={{ maxHeight: '600px', height: 'auto' }}
       >
         {/* Header */}
@@ -227,6 +236,16 @@ export default function VoiceAssistant() {
             </button>
           </div>
         </div>
+
+        {/* No-backend warning banner */}
+        {!IS_BACKEND_CONFIGURED && (
+          <div className="flex items-start gap-2 bg-orange-50 border-b border-orange-100 px-4 py-2">
+            <WifiOff className="w-4 h-4 text-orange-500 mt-0.5 shrink-0" />
+            <p className="text-[11px] text-orange-700 leading-snug">
+              <span className="font-bold">No backend connected.</span> Voice responses are disabled. Set <code className="font-mono bg-orange-100 px-1 rounded">VITE_API_URL</code> in Vercel to enable AI replies.
+            </p>
+          </div>
+        )}
 
         {/* Status Bar & Controls */}
         <div className="px-4 py-2 flex items-center justify-between border-b border-gray-50">
@@ -315,10 +334,13 @@ export default function VoiceAssistant() {
 
       {/* Floating Action Button (FAB) */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`fixed bottom-20 md:bottom-6 right-4 md:right-6 z-[9998] w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 border-2 ${
+        onClick={() => {
+          console.log(`[VoiceAssistant] FAB clicked. Current state: ${isOpen}. Toggling to: ${!isOpen}`);
+          setIsOpen(!isOpen);
+        }}
+        className={`fixed bottom-20 md:bottom-6 right-4 md:right-6 z-[100000] w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all duration-300 border-2 ${
           isOpen 
-            ? 'bg-white border-[#1da1f2] text-[#1da1f2] rotate-180 scale-0 opacity-0' 
+            ? 'bg-white border-[#1da1f2] text-[#1da1f2] rotate-180 scale-0 opacity-0 pointer-events-none' 
             : 'bg-[#1da1f2] border-transparent text-white hover:bg-[#1a91da] hover:scale-105'
         }`}
         aria-label="Open Voice Assistant"
