@@ -2,27 +2,56 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, LogOut, Loader2, AlertCircle } from 'lucide-react';
+import {
+  ArrowLeft, LogOut, Loader2, AlertCircle,
+  Globe, Mic, BellRing, Train, Phone, ChevronRight,
+  User, Settings
+} from 'lucide-react';
+import AdvancedSettings from '../components/AdvancedSettings';
+
+// Clickable settings card
+function SettingCard({ icon: Icon, title, value, onClick, accent = 'text-indigo-500' }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="w-full flex items-center justify-between bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 hover:bg-indigo-50 dark:hover:bg-gray-700 active:scale-[0.98] transition-all duration-150 cursor-pointer group focus:outline-none focus:ring-2 focus:ring-indigo-400"
+    >
+      <div className="flex items-center gap-3">
+        <span className={`p-2 rounded-lg bg-indigo-50 dark:bg-gray-700 ${accent} group-hover:bg-indigo-100 dark:group-hover:bg-gray-600 transition-colors`}>
+          <Icon size={18} />
+        </span>
+        <div className="text-left">
+          <p className="text-sm font-medium text-gray-800 dark:text-gray-100">{title}</p>
+          {value !== undefined && (
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{value}</p>
+          )}
+        </div>
+      </div>
+      <ChevronRight size={16} className="text-gray-400 group-hover:text-indigo-500 transition-colors" />
+    </button>
+  );
+}
 
 export default function ProfilePage() {
   const { user, authLoading, logout } = useAuth();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  // Simulate fetching additional profile data (e.g., preferences) from Firestore
+  const [showAdvanced, setShowAdvanced] = useState(false);
+  const [advancedSection, setAdvancedSection] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [profileData, setProfileData] = useState(null);
 
   useEffect(() => {
     if (!authLoading && !user) {
-      // Not logged in – show login prompt after a short delay
       setLoading(false);
       return;
     }
+    if (authLoading) return;
+
     async function fetchProfile() {
       try {
-        // In a real app replace this with Firestore call
-        // For now we just use the user object as placeholder
         setProfileData({
           phone: user?.phoneNumber || '',
           language: 'English',
@@ -45,10 +74,16 @@ export default function ProfilePage() {
     fetchProfile();
   }, [authLoading, user]);
 
+  // Open advanced modal scrolled to a specific section
+  const openSection = (sectionId) => {
+    setAdvancedSection(sectionId);
+    setShowAdvanced(true);
+  };
+
   if (authLoading || loading) {
     return (
       <div className="flex justify-center items-center min-h-screen bg-gray-50 dark:bg-gray-900">
-        <Loader2 className="animate-spin h-12 w-12 text-primary" />
+        <Loader2 className="animate-spin h-12 w-12 text-indigo-500" />
       </div>
     );
   }
@@ -62,7 +97,7 @@ export default function ProfilePage() {
         </div>
         <button
           onClick={() => navigate('/')}
-          className="mt-4 w-full py-2 bg-primary text-white rounded"
+          className="mt-4 w-full py-2 bg-indigo-600 text-white rounded"
         >
           Go Home
         </button>
@@ -76,7 +111,7 @@ export default function ProfilePage() {
         <p className="mb-4 text-gray-700 dark:text-gray-200">You are not logged in.</p>
         <button
           onClick={() => navigate('/login')}
-          className="px-4 py-2 bg-primary text-white rounded"
+          className="px-4 py-2 bg-indigo-600 text-white rounded"
         >
           Login
         </button>
@@ -87,93 +122,137 @@ export default function ProfilePage() {
   const pd = profileData || {};
 
   return (
-    <div className="max-w-2xl mx-auto p-4">
-      {/* Header */}
-      <div className="flex items-center mb-6">
-        <button onClick={() => navigate(-1)} className="mr-2 text-gray-600 dark:text-gray-300">
-          <ArrowLeft size={20} />
-        </button>
-        <h1 className="text-2xl font-semibold text-gray-800 dark:text-gray-100">Profile</h1>
-      </div>
-
-      {/* Avatar and basic info */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow p-6 flex items-center space-x-4 mb-6">
-        <img
-          src={user.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.displayName || 'User')}
-          alt="Avatar"
-          className="w-20 h-20 rounded-full object-cover"
-        />
-        <div>
-          <p className="text-lg font-medium text-gray-900 dark:text-gray-100">{user.displayName || 'Unnamed User'}</p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">{user.email}</p>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="max-w-2xl mx-auto px-4 py-6 pb-24">
+        {/* Header */}
+        <div className="flex items-center mb-6">
+          <button
+            onClick={() => navigate(-1)}
+            className="mr-3 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+          >
+            <ArrowLeft size={20} className="text-gray-600 dark:text-gray-300" />
+          </button>
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Profile</h1>
         </div>
-      </div>
 
-      {/* Detail cards */}
-      <div className="space-y-4">
-        {/* Phone */}
-        {pd.phone && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
-            <h2 className="font-medium text-gray-800 dark:text-gray-200">Phone</h2>
-            <p className="text-gray-600 dark:text-gray-400">{pd.phone}</p>
+        {/* Avatar card */}
+        <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl shadow-lg p-6 flex items-center gap-4 mb-6 text-white">
+          <img
+            src={
+              user.photoURL ||
+              'https://ui-avatars.com/api/?name=' +
+                encodeURIComponent(user.displayName || 'User') +
+                '&background=ffffff&color=6366f1'
+            }
+            alt="Avatar"
+            className="w-20 h-20 rounded-full object-cover ring-4 ring-white/40"
+          />
+          <div>
+            <p className="text-xl font-semibold">{user.displayName || 'Unnamed User'}</p>
+            <p className="text-sm text-indigo-100">{user.email}</p>
+            {pd.phone && <p className="text-sm text-indigo-100 mt-0.5">{pd.phone}</p>}
           </div>
-        )}
-        {/* Preferred Language */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
-          <h2 className="font-medium text-gray-800 dark:text-gray-200">Preferred Language</h2>
-          <p className="text-gray-600 dark:text-gray-400">{pd.language}</p>
         </div>
-        {/* Voice Assistant */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
-          <h2 className="font-medium text-gray-800 dark:text-gray-200">Voice Assistant</h2>
-          <p className="text-gray-600 dark:text-gray-400">{pd.voiceAssistant ? 'Enabled' : 'Disabled'}</p>
-        </div>
-        {/* Missed Station Alerts */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
-          <h2 className="font-medium text-gray-800 dark:text-gray-200">Missed Station Alerts</h2>
-          <p className="text-gray-600 dark:text-gray-400">{pd.missedStationAlert ? 'Enabled' : 'Disabled'}</p>
-        </div>
-        {/* Notification Settings */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
-          <h2 className="font-medium text-gray-800 dark:text-gray-200">Notifications</h2>
-          <p className="text-gray-600 dark:text-gray-400">{pd.notifications ? 'Enabled' : 'Disabled'}</p>
-        </div>
-        {/* Emergency Contacts */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
-          <h2 className="font-medium text-gray-800 dark:text-gray-200">Emergency Contacts</h2>
-          {pd.emergencyContacts && pd.emergencyContacts.length > 0 ? (
-            <ul className="list-disc list-inside">
-              {pd.emergencyContacts.map((c, i) => (
-                <li key={i}>{c.name} - {c.phone}</li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-gray-600 dark:text-gray-400">No contacts added.</p>
-          )}
-        </div>
-        {/* Railway Preferences */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow">
-          <h2 className="font-medium text-gray-800 dark:text-gray-200">Railway Preferences</h2>
-          <p className="text-gray-600 dark:text-gray-400">Seat Class: {pd.railwayPrefs?.seatClass || 'N/A'}</p>
-          <p className="text-gray-600 dark:text-gray-400">Window Seat: {pd.railwayPrefs?.prefersWindow ? 'Yes' : 'No'}</p>
-        </div>
-        {/* App Version */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow flex items-center justify-between">
-          <span className="text-gray-800 dark:text-gray-200">App Version</span>
-          <span className="font-medium text-gray-600 dark:text-gray-400">{pd.appVersion}</span>
-        </div>
-      </div>
 
-      {/* Logout */}
-      <div className="mt-8 flex justify-center">
+        {/* Settings cards */}
+        <div className="space-y-3 mb-6">
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-1">Preferences</p>
+
+          <SettingCard
+            icon={Globe}
+            title="Preferred Language"
+            value={pd.language || 'Not set'}
+            onClick={() => openSection('travel')}
+            accent="text-blue-500"
+          />
+
+          <SettingCard
+            icon={Mic}
+            title="Voice Assistant"
+            value={pd.voiceAssistant ? 'Enabled' : 'Disabled'}
+            onClick={() => openSection('voice')}
+            accent="text-purple-500"
+          />
+
+          <SettingCard
+            icon={BellRing}
+            title="Missed Station Alerts"
+            value={pd.missedStationAlert ? 'Enabled' : 'Disabled'}
+            onClick={() => openSection('notifications')}
+            accent="text-yellow-500"
+          />
+
+          <SettingCard
+            icon={BellRing}
+            title="Notifications"
+            value={pd.notifications ? 'All enabled' : 'Disabled'}
+            onClick={() => openSection('notifications')}
+            accent="text-orange-500"
+          />
+
+          <SettingCard
+            icon={Phone}
+            title="Emergency Contacts"
+            value={
+              pd.emergencyContacts && pd.emergencyContacts.length > 0
+                ? `${pd.emergencyContacts.length} contact(s)`
+                : 'No contacts added'
+            }
+            onClick={() => openSection('security')}
+            accent="text-red-500"
+          />
+
+          <SettingCard
+            icon={Train}
+            title="Railway Preferences"
+            value={`Seat: ${pd.railwayPrefs?.seatClass || 'N/A'} · Window: ${pd.railwayPrefs?.prefersWindow ? 'Yes' : 'No'}`}
+            onClick={() => openSection('travel')}
+            accent="text-green-500"
+          />
+        </div>
+
+        {/* App info */}
+        <div className="space-y-3 mb-6">
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-1">Account</p>
+
+          <SettingCard
+            icon={User}
+            title="Account Settings"
+            value="Edit name, email, password"
+            onClick={() => openSection('account')}
+            accent="text-indigo-500"
+          />
+
+          <SettingCard
+            icon={Settings}
+            title="Advanced Settings"
+            value="App, security, insights & more"
+            onClick={() => openSection(null)}
+            accent="text-gray-500"
+          />
+
+          <div className="flex items-center justify-between bg-white dark:bg-gray-800 rounded-xl shadow-sm px-4 py-3">
+            <span className="text-sm text-gray-600 dark:text-gray-300">App Version</span>
+            <span className="text-sm font-medium text-gray-800 dark:text-gray-100">{pd.appVersion}</span>
+          </div>
+        </div>
+
+        {/* Logout */}
         <button
           onClick={() => { logout(); navigate('/'); }}
-          className="flex items-center px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+          className="w-full flex items-center justify-center gap-2 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 active:scale-95 transition-all font-medium"
         >
-          <LogOut className="mr-2" size={18} />
+          <LogOut size={18} />
           Logout
         </button>
       </div>
+
+      {/* Advanced Settings Modal */}
+      <AdvancedSettings
+        open={showAdvanced}
+        initialSection={advancedSection}
+        onClose={() => { setShowAdvanced(false); setAdvancedSection(null); }}
+      />
     </div>
   );
 }
