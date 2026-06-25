@@ -20,7 +20,17 @@ from utils.loader import initialise_offline_data
 from utils import search
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=False)
+
+# CORS — allow Vercel frontend (production) and localhost (development)
+CORS(app, resources={r"/api/*": {
+    "origins": [
+        "https://yathrava.vercel.app",
+        "https://yathrava-git-main-naveen-venkatesan1.vercel.app",
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:5173",
+    ]
+}}, supports_credentials=False)
 
 # Configuration
 app.config['SECRET_KEY'] = os.environ.get('JWT_SECRET', 'dev_secret_key')
