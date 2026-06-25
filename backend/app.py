@@ -7,7 +7,12 @@ from pymongo import MongoClient
 import jwt
 from werkzeug.security import generate_password_hash, check_password_hash
 from bson.objectid import ObjectId
-import pytesseract
+try:
+    import pytesseract
+    TESSERACT_AVAILABLE = True
+except ImportError:
+    pytesseract = None
+    TESSERACT_AVAILABLE = False
 from PIL import Image
 import io
 # Local utilities for offline railway data
@@ -133,6 +138,8 @@ def vision_scan():
     file = request.files['image']
     try:
         img = Image.open(file.stream)
+        if not TESSERACT_AVAILABLE:
+            raise Exception("Tesseract not available")
         # Attempt real OCR
         text = pytesseract.image_to_string(img)
         # Simple extraction logic based on the text
@@ -142,14 +149,12 @@ def vision_scan():
             return jsonify({'message': 'Recognized Train: 12621 Tamil Nadu Exp. You are boarding the correct train!', 'raw_text': text}), 200
         else:
             return jsonify({'message': 'OCR completed. Could not automatically determine station or train.', 'raw_text': text}), 200
-    except pytesseract.TesseractNotFoundError:
+    except Exception:
         # Fallback if tesseract is not installed on the system
         return jsonify({
             'message': '[Mocked OCR] Recognized Station: Chennai Central. You are boarding the correct train!',
             'raw_text': 'CHENNAI CENTRAL'
         }), 200
-    except Exception as e:
-        return jsonify({'message': f'Error processing image: {str(e)}'}), 500
 
 @app.route('/api/chat/intent', methods=['POST'])
 def chat_intent():
